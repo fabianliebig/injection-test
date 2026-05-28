@@ -1,0 +1,29 @@
+name: Injection Demo
+
+on:
+  workflow_dispatch:
+    inputs:
+      title:
+        description: "Try: hello\" && echo INJECTED #"
+        required: true
+        default: 'hello" && echo INJECTED #'
+
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Fall 1: Direkte Einbettung"
+        run: |
+          echo "PR: ${{ github.event.inputs.title }}"
+
+      - name: "Fall 2: Env-Variable mit Quotes"
+        env:
+          TITLE: ${{ github.event.inputs.title }}
+        run: |
+          echo "PR: $TITLE"
+
+      - name: "Fall 3: Env-Variable ohne Quotes"
+        env:
+          TITLE: ${{ github.event.inputs.title }}
+        run: |
+          echo PR: $TITLE
